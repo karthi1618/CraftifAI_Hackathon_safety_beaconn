@@ -1,0 +1,489 @@
+{
+  "schema_version": "1.0.0",
+  "view": "wiring",
+  "revision": "0e658af235410e65e7ad3bad2eb7455d",
+  "graph_version": 4,
+  "generated_at_ms": 1786186745505,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_dht22_uart_stream",
+    "name": "dht22_uart_stream topology",
+    "description": "Resolved DHT22 gpio_config pin via cfg.pin_bit_mask and added DHT22 sensor node plus task/peripheral edges.",
+    "nodes": [
+      {
+        "id": "boot",
+        "node_type": "system_init",
+        "label": "Boot / app_main",
+        "description": "Bootstraps firmware startup and initializes core subsystems.",
+        "ports": [
+          {
+            "id": "boot_boot_out_0",
+            "name": "boot_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": true,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "target": "esp32c3"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -500.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht22_gpio",
+        "node_type": "gpio_input",
+        "label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)",
+        "description": "Reads GPIO 2 as an input signal.",
+        "ports": [
+          {
+            "id": "dht22_gpio_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_gpio_gpio_out_1",
+            "name": "gpio_out",
+            "direction": "output",
+            "datatype": "gpio_level",
+            "required": true,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "pin": 2,
+          "mode": "input_output_open_drain",
+          "pull": "up"
+        },
+        "hardware": {
+          "gpio": 2,
+          "bus": "gpio",
+          "pin_label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -300.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_trigger_in_1",
+            "name": "trigger_in",
+            "direction": "input",
+            "datatype": "event",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_exec_out_2",
+            "name": "exec_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task_data_out_3",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": -100.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht_poll",
+        "node_type": "rtos_task",
+        "label": "Task dht_poll",
+        "description": "Executes RTOS loop logic for dht_poll.",
+        "ports": [
+          {
+            "id": "dht_poll_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_poll_trigger_in_1",
+            "name": "trigger_in",
+            "direction": "input",
+            "datatype": "event",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_poll_exec_out_2",
+            "name": "exec_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_poll_data_out_3",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_poll",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": 100.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht_stream",
+        "node_type": "rtos_task",
+        "label": "Task dht_stream",
+        "description": "Executes RTOS loop logic for dht_stream.",
+        "ports": [
+          {
+            "id": "dht_stream_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_stream_trigger_in_1",
+            "name": "trigger_in",
+            "direction": "input",
+            "datatype": "event",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_stream_exec_out_2",
+            "name": "exec_out",
+            "direction": "output",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_stream_data_out_3",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_stream",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": 300.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "logger",
+        "node_type": "logger",
+        "label": "Logger",
+        "description": "Emits structured runtime logs for diagnostics.",
+        "ports": [
+          {
+            "id": "logger_data_in_0",
+            "name": "data_in",
+            "direction": "input",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "logger_exec_in_1",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "tag": "APP",
+          "level": "info"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -400.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "_uart",
+        "node_type": "uart_device",
+        "label": "APP UART Device",
+        "description": "Represents a UART peripheral with mapped serial pins.",
+        "ports": [
+          {
+            "id": "_uart_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_uart_data_in_1",
+            "name": "data_in",
+            "direction": "input",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_uart_data_out_2",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "port": 1,
+          "baud_rate": 115200,
+          "tx_pin": 17,
+          "rx_pin": 16
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": -200.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "timer_node",
+        "node_type": "timer_node",
+        "label": "Timer",
+        "description": "Schedules periodic callbacks for time-based workflow.",
+        "ports": [
+          {
+            "id": "timer_node_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "timer_node_event_out_1",
+            "name": "event_out",
+            "direction": "output",
+            "datatype": "event",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "timer_name": "periodic_timer",
+          "period_ms": 1000.0,
+          "auto_reload": true
+        },
+        "execution": {
+          "period_ms": 1000.0
+        },
+        "visual": {
+          "x": 0.0,
+          "y": 0.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "dht22_sensor",
+        "node_type": "sensor_input",
+        "label": "DHT22 Temperature/Humidity Sensor",
+        "description": "DHT22 sensor uses a single open-drain data line on GPIO2.",
+        "ports": [
+          {
+            "id": "dht22_sensor_exec_in_0",
+            "name": "exec_in",
+            "direction": "input",
+            "datatype": "execution",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_sensor_data_out_1",
+            "name": "data_out",
+            "direction": "output",
+            "datatype": "signal",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "driver": "bitbang_onewire_like",
+          "protocol": "DHT22",
+          "pin_bindings": {
+            "data": 2
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 200.0,
+          "layer": 1
+        }
+      }
+    ],
+    "connections": [
+      [
+        "boot_boot_out_0",
+        "app_task_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "dht_poll_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "dht_stream_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "logger_exec_in_1"
+      ],
+      [
+        "boot_boot_out_0",
+        "_uart_exec_in_0"
+      ],
+      [
+        "boot_boot_out_0",
+        "timer_node_exec_in_0"
+      ],
+      [
+        "app_task_exec_out_2",
+        "dht22_gpio_exec_in_0"
+      ],
+      [
+        "timer_node_event_out_1",
+        "app_task_trigger_in_1"
+      ],
+      [
+        "timer_node_event_out_1",
+        "dht_poll_trigger_in_1"
+      ],
+      [
+        "timer_node_event_out_1",
+        "dht_stream_trigger_in_1"
+      ],
+      [
+        "app_task_data_out_3",
+        "logger_data_in_0"
+      ],
+      [
+        "app_task_data_out_3",
+        "_uart_data_in_1"
+      ],
+      [
+        "app_task_exec_out_2",
+        "timer_node_exec_in_0"
+      ],
+      [
+        "app_task_exec_out_2",
+        "dht_poll_exec_in_0"
+      ],
+      [
+        "app_task_exec_out_2",
+        "dht_stream_exec_in_0"
+      ],
+      [
+        "dht_poll_exec_out_2",
+        "dht22_gpio_exec_in_0"
+      ],
+      [
+        "dht_poll_exec_out_2",
+        "dht22_sensor_exec_in_0"
+      ],
+      [
+        "dht_stream_exec_out_2",
+        "_uart_exec_in_0"
+      ],
+      [
+        "dht_poll_exec_out_2",
+        "timer_node_exec_in_0"
+      ],
+      [
+        "dht_stream_exec_out_2",
+        "logger_exec_in_1"
+      ]
+    ],
+    "layout": {
+      "orientation": "",
+      "node_width": 0.0,
+      "layer_gap": 0.0,
+      "node_gap": 0.0
+    }
+  },
+  "title": "Wiring Topology"
+}

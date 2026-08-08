@@ -1,0 +1,438 @@
+{
+  "schema_version": "1.0.0",
+  "view": "sequence",
+  "revision": "0e658af235410e65e7ad3bad2eb7455d",
+  "graph_version": 4,
+  "generated_at_ms": 1786186745511,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_dht22_uart_stream-sequence",
+    "name": "dht22_uart_stream topology — Sequence",
+    "description": "Execution and initialization order",
+    "nodes": [
+      {
+        "id": "boot",
+        "node_type": "system_init",
+        "label": "1. Boot / app_main",
+        "description": "Bootstraps firmware startup and initializes core subsystems.",
+        "ports": [
+          {
+            "id": "boot::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "boot::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "target": "esp32c3"
+        },
+        "execution": {},
+        "visual": {
+          "x": 0.0,
+          "y": 80.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "2. Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "visual": {
+          "x": 320.0,
+          "y": 80.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "dht_poll",
+        "node_type": "rtos_task",
+        "label": "3. Task dht_poll",
+        "description": "Executes RTOS loop logic for dht_poll.",
+        "ports": [
+          {
+            "id": "dht_poll::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_poll::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_poll",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 640.0,
+          "y": 80.0,
+          "layer": 2
+        }
+      },
+      {
+        "id": "dht_stream",
+        "node_type": "rtos_task",
+        "label": "4. Task dht_stream",
+        "description": "Executes RTOS loop logic for dht_stream.",
+        "ports": [
+          {
+            "id": "dht_stream::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_stream::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_stream",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 960.0,
+          "y": 80.0,
+          "layer": 3
+        }
+      },
+      {
+        "id": "logger",
+        "node_type": "logger",
+        "label": "5. Logger",
+        "description": "Emits structured runtime logs for diagnostics.",
+        "ports": [
+          {
+            "id": "logger::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "logger::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "tag": "APP",
+          "level": "info"
+        },
+        "execution": {},
+        "visual": {
+          "x": 1280.0,
+          "y": 80.0,
+          "layer": 4
+        }
+      },
+      {
+        "id": "_uart",
+        "node_type": "uart_device",
+        "label": "6. APP UART Device",
+        "description": "Represents a UART peripheral with mapped serial pins.",
+        "ports": [
+          {
+            "id": "_uart::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_uart::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "port": 1,
+          "baud_rate": 115200,
+          "tx_pin": 17,
+          "rx_pin": 16
+        },
+        "execution": {},
+        "visual": {
+          "x": 1600.0,
+          "y": 80.0,
+          "layer": 5
+        }
+      },
+      {
+        "id": "timer_node",
+        "node_type": "timer_node",
+        "label": "7. Timer",
+        "description": "Schedules periodic callbacks for time-based workflow.",
+        "ports": [
+          {
+            "id": "timer_node::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "timer_node::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "timer_name": "periodic_timer",
+          "period_ms": 1000.0,
+          "auto_reload": true
+        },
+        "execution": {
+          "period_ms": 1000.0
+        },
+        "visual": {
+          "x": 1920.0,
+          "y": 80.0,
+          "layer": 6
+        }
+      },
+      {
+        "id": "dht22_gpio",
+        "node_type": "gpio_input",
+        "label": "8. DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)",
+        "description": "Reads GPIO 2 as an input signal.",
+        "ports": [
+          {
+            "id": "dht22_gpio::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_gpio::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "pin": 2,
+          "mode": "input_output_open_drain",
+          "pull": "up"
+        },
+        "hardware": {
+          "gpio": 2,
+          "bus": "gpio",
+          "pin_label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)"
+        },
+        "execution": {},
+        "visual": {
+          "x": 2240.0,
+          "y": 80.0,
+          "layer": 7
+        }
+      },
+      {
+        "id": "dht22_sensor",
+        "node_type": "sensor_input",
+        "label": "9. DHT22 Temperature/Humidity Sensor",
+        "description": "DHT22 sensor uses a single open-drain data line on GPIO2.",
+        "ports": [
+          {
+            "id": "dht22_sensor::in",
+            "name": "in",
+            "direction": "input",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_sensor::out",
+            "name": "out",
+            "direction": "output",
+            "datatype": "any",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "driver": "bitbang_onewire_like",
+          "protocol": "DHT22",
+          "pin_bindings": {
+            "data": 2
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 2560.0,
+          "y": 80.0,
+          "layer": 8
+        }
+      }
+    ],
+    "connections": [
+      [
+        "boot::out",
+        "app_task::in"
+      ],
+      [
+        "boot::out",
+        "dht_poll::in"
+      ],
+      [
+        "boot::out",
+        "dht_stream::in"
+      ],
+      [
+        "boot::out",
+        "logger::in"
+      ],
+      [
+        "boot::out",
+        "_uart::in"
+      ],
+      [
+        "boot::out",
+        "timer_node::in"
+      ],
+      [
+        "app_task::out",
+        "dht_poll::in"
+      ],
+      [
+        "app_task::out",
+        "dht_stream::in"
+      ],
+      [
+        "app_task::out",
+        "logger::in"
+      ],
+      [
+        "app_task::out",
+        "_uart::in"
+      ],
+      [
+        "app_task::out",
+        "timer_node::in"
+      ],
+      [
+        "dht_poll::out",
+        "timer_node::in"
+      ],
+      [
+        "dht_stream::out",
+        "logger::in"
+      ],
+      [
+        "dht_stream::out",
+        "_uart::in"
+      ],
+      [
+        "timer_node::out",
+        "app_task::in"
+      ],
+      [
+        "timer_node::out",
+        "dht_poll::in"
+      ],
+      [
+        "timer_node::out",
+        "dht_stream::in"
+      ],
+      [
+        "boot::out",
+        "dht22_gpio::in"
+      ],
+      [
+        "dht22_gpio::out",
+        "dht22_sensor::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "horizontal",
+      "node_width": 0.0,
+      "layer_gap": 0.0,
+      "node_gap": 0.0
+    }
+  },
+  "mermaid": "sequenceDiagram\n  participant boot as boot\n  participant app_task as app_task\n  participant dht_poll as dht_poll\n  participant dht22_gpio as dht22_gpio\n  participant timer_node as timer_node\n  participant dht_stream as dht_stream\n  participant _uart as _uart\n\n  boot->>app_task: app_main init, start app_task\n  app_task->>dht_poll: create/start polling task (APP_DHT22_POLL_INTERVAL_MS)\n  app_task->>dht_stream: create/start streaming task (APP_STREAM_PERIOD_MS)\n\n  loop every APP_DHT22_POLL_INTERVAL_MS\n    dht_poll->>timer_node: esp_timer_get_time() for timing\n    dht_poll->>dht22_gpio: gpio_config(open-drain + pull-up)\n    dht_poll->>dht22_gpio: drive low (start), then release and read pulse widths\n  end\n\n  loop every APP_STREAM_PERIOD_MS\n    dht_stream->>_uart: write CSV line (optional header)\n  end",
+  "title": "Initialization and periodic DHT22 read + UART streaming"
+}

@@ -1,0 +1,319 @@
+{
+  "schema_version": "1.0.0",
+  "view": "hld",
+  "revision": "0e658af235410e65e7ad3bad2eb7455d",
+  "graph_version": 4,
+  "generated_at_ms": 1786186745507,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_dht22_uart_stream-hld",
+    "name": "dht22_uart_stream topology — HLD",
+    "description": "High-level architecture — ESP32 controller, firmware modules, and integrations",
+    "nodes": [
+      {
+        "id": "hld_esp32",
+        "node_type": "system_init",
+        "label": "ESP32 Main Controller",
+        "description": "Main firmware control node coordinating peripherals, storage, and connectivity.",
+        "ports": [
+          {
+            "id": "hld_esp32::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_esp32::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "hld_role": "controller"
+        },
+        "visual": {
+          "x": 0.0,
+          "y": -100.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "hld_dht22_gpio",
+        "node_type": "gpio_input",
+        "label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)",
+        "description": "Reads GPIO 2 as an input signal.",
+        "ports": [
+          {
+            "id": "hld_dht22_gpio::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_dht22_gpio::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "pin": 2,
+          "mode": "input_output_open_drain",
+          "pull": "up",
+          "hld_role": "peripheral",
+          "source_node_id": "dht22_gpio"
+        },
+        "hardware": {
+          "gpio": 2,
+          "bus": "gpio",
+          "pin_label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)"
+        },
+        "execution": {},
+        "visual": {
+          "x": 1290.0,
+          "y": -232.0,
+          "layer": 3
+        }
+      },
+      {
+        "id": "hld_dht22_sensor",
+        "node_type": "sensor_input",
+        "label": "DHT22 Temperature/Humidity Sensor",
+        "description": "DHT22 sensor uses a single open-drain data line on GPIO2.",
+        "ports": [
+          {
+            "id": "hld_dht22_sensor::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_dht22_sensor::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "driver": "bitbang_onewire_like",
+          "protocol": "DHT22",
+          "pin_bindings": {
+            "data": 2
+          },
+          "hld_role": "peripheral",
+          "source_node_id": "dht22_sensor"
+        },
+        "execution": {},
+        "visual": {
+          "x": 1290.0,
+          "y": 32.0,
+          "layer": 3
+        }
+      },
+      {
+        "id": "hld__uart",
+        "node_type": "uart_device",
+        "label": "APP UART Device",
+        "description": "Represents a UART peripheral with mapped serial pins.",
+        "ports": [
+          {
+            "id": "hld__uart::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld__uart::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "port": 1,
+          "baud_rate": 115200,
+          "tx_pin": 17,
+          "rx_pin": 16,
+          "hld_role": "peripheral",
+          "source_node_id": "_uart"
+        },
+        "execution": {},
+        "visual": {
+          "x": 860.0,
+          "y": -232.0,
+          "layer": 2
+        }
+      },
+      {
+        "id": "hld_app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "hld_app_task::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_app_task::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0,
+          "hld_role": "runtime",
+          "source_node_id": "app_task"
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "visual": {
+          "x": 430.0,
+          "y": -100.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "hld_dht_poll",
+        "node_type": "rtos_task",
+        "label": "Task dht_poll",
+        "description": "Executes RTOS loop logic for dht_poll.",
+        "ports": [
+          {
+            "id": "hld_dht_poll::hld::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "hld_dht_poll::hld::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_poll",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0,
+          "hld_role": "runtime",
+          "source_node_id": "dht_poll"
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 860.0,
+          "y": 32.0,
+          "layer": 2
+        }
+      }
+    ],
+    "connections": [
+      [
+        "hld_esp32::hld::out",
+        "hld_dht22_gpio::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld_dht22_sensor::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld__uart::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld_app_task::hld::in"
+      ],
+      [
+        "hld_esp32::hld::out",
+        "hld_dht_poll::hld::in"
+      ],
+      [
+        "hld_app_task::hld::out",
+        "hld_dht_poll::hld::in"
+      ],
+      [
+        "hld_dht_poll::hld::out",
+        "hld_dht22_gpio::hld::in"
+      ],
+      [
+        "hld_dht_poll::hld::out",
+        "hld_dht22_sensor::hld::in"
+      ],
+      [
+        "hld_app_task::hld::out",
+        "hld__uart::hld::in"
+      ],
+      [
+        "hld_app_task::hld::out",
+        "hld_dht22_gpio::hld::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "horizontal",
+      "node_width": 280.0,
+      "layer_gap": 150.0,
+      "node_gap": 64.0
+    },
+    "runtime_metadata": {
+      "telemetry_enabled": false,
+      "overlays": {
+        "diagram_view": "hld",
+        "hld_projection": "architecture",
+        "hld_edge_labels": {
+          "hld_esp32::hld::out|hld_dht22_gpio::hld::in": "Sensor Data",
+          "hld_esp32::hld::out|hld_dht22_sensor::hld::in": "Sensor Data",
+          "hld_esp32::hld::out|hld__uart::hld::in": "Peripheral I/O",
+          "hld_esp32::hld::out|hld_app_task::hld::in": "Firmware Logic",
+          "hld_esp32::hld::out|hld_dht_poll::hld::in": "Firmware Logic",
+          "hld_app_task::hld::out|hld_dht_poll::hld::in": "Invoke Task dht_poll",
+          "hld_dht_poll::hld::out|hld_dht22_gpio::hld::in": "Invoke DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)",
+          "hld_dht_poll::hld::out|hld_dht22_sensor::hld::in": "Invoke DHT22 Temperature/Humidity Sensor",
+          "hld_app_task::hld::out|hld__uart::hld::in": "Data Flow",
+          "hld_app_task::hld::out|hld_dht22_gpio::hld::in": "Control DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)"
+        }
+      }
+    }
+  },
+  "mermaid": "graph TD\n    hld_esp32[\"ESP32 Main Controller\"]\n    hld_dht22_gpio[\"DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)\"]\n    hld_dht22_sensor[\"DHT22 Temperature/Humidity Sensor\"]\n    hld__uart[\"APP UART Device\"]\n    hld_app_task[\"Task app_task\"]\n    hld_dht_poll[\"Task dht_poll\"]\n    hld_esp32 -->|Sensor Data| hld_dht22_gpio\n    hld_esp32 -->|Sensor Data| hld_dht22_sensor\n    hld_esp32 -->|Peripheral I/O| hld__uart\n    hld_esp32 -->|Firmware Logic| hld_app_task\n    hld_esp32 -->|Firmware Logic| hld_dht_poll\n    hld_app_task -->|Invoke Task dht_poll| hld_dht_poll\n    hld_dht_poll -->|Invoke DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)| hld_dht22_gpio\n    hld_dht_poll -->|Invoke DHT22 Temperature/Humidity Sensor| hld_dht22_sensor\n    hld_app_task -->|Data Flow| hld__uart\n    hld_app_task -->|Control DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)| hld_dht22_gpio",
+  "title": "DHT22 UART Streamer (ESP32-C3)"
+}

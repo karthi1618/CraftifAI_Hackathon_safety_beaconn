@@ -1,0 +1,439 @@
+{
+  "schema_version": "1.0.0",
+  "view": "lld",
+  "revision": "0e658af235410e65e7ad3bad2eb7455d",
+  "graph_version": 4,
+  "generated_at_ms": 1786186745509,
+  "graph": {
+    "schema_version": 1,
+    "id": "pir_dht22_uart_stream-lld",
+    "name": "dht22_uart_stream topology — LLD",
+    "description": "Low-level design — FreeRTOS and peripheral/service workflow",
+    "nodes": [
+      {
+        "id": "app_task",
+        "node_type": "rtos_task",
+        "label": "Task app_task",
+        "description": "Executes RTOS loop logic for app_task.",
+        "ports": [
+          {
+            "id": "app_task::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "app_task::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "app_task",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0,
+          "lld_workflow": {
+            "role": "freertos",
+            "node_type": "rtos_task"
+          }
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 2000.0
+        },
+        "visual": {
+          "x": -560.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht_poll",
+        "node_type": "rtos_task",
+        "label": "Task dht_poll",
+        "description": "Executes RTOS loop logic for dht_poll.",
+        "ports": [
+          {
+            "id": "dht_poll::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_poll::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_poll",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0,
+          "lld_workflow": {
+            "role": "freertos",
+            "node_type": "rtos_task"
+          }
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": -232.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht_stream",
+        "node_type": "rtos_task",
+        "label": "Task dht_stream",
+        "description": "Executes RTOS loop logic for dht_stream.",
+        "ports": [
+          {
+            "id": "dht_stream::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht_stream::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "task_name": "dht_stream",
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0,
+          "lld_workflow": {
+            "role": "freertos",
+            "node_type": "rtos_task"
+          }
+        },
+        "execution": {
+          "priority": 5,
+          "stack_size": 4096,
+          "period_ms": 0.0
+        },
+        "visual": {
+          "x": 96.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "timer_node",
+        "node_type": "timer_node",
+        "label": "Timer",
+        "description": "Schedules periodic callbacks for time-based workflow.",
+        "ports": [
+          {
+            "id": "timer_node::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "timer_node::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "timer_name": "periodic_timer",
+          "period_ms": 1000.0,
+          "auto_reload": true,
+          "lld_workflow": {
+            "role": "freertos",
+            "node_type": "timer_node"
+          }
+        },
+        "execution": {
+          "period_ms": 1000.0
+        },
+        "visual": {
+          "x": 424.0,
+          "y": 0.0,
+          "layer": 0
+        }
+      },
+      {
+        "id": "dht22_gpio",
+        "node_type": "gpio_input",
+        "label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)",
+        "description": "Reads GPIO 2 as an input signal.",
+        "ports": [
+          {
+            "id": "dht22_gpio::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_gpio::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "pin": 2,
+          "mode": "input_output_open_drain",
+          "pull": "up",
+          "lld_workflow": {
+            "role": "peripheral",
+            "node_type": "gpio_input"
+          }
+        },
+        "hardware": {
+          "gpio": 2,
+          "bus": "gpio",
+          "pin_label": "DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)"
+        },
+        "execution": {},
+        "visual": {
+          "x": -560.0,
+          "y": 320.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "dht22_sensor",
+        "node_type": "sensor_input",
+        "label": "DHT22 Temperature/Humidity Sensor",
+        "description": "DHT22 sensor uses a single open-drain data line on GPIO2.",
+        "ports": [
+          {
+            "id": "dht22_sensor::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "dht22_sensor::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "driver": "bitbang_onewire_like",
+          "protocol": "DHT22",
+          "pin_bindings": {
+            "data": 2
+          },
+          "lld_workflow": {
+            "role": "peripheral",
+            "node_type": "sensor_input"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": -232.0,
+          "y": 320.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "_uart",
+        "node_type": "uart_device",
+        "label": "APP UART Device",
+        "description": "Represents a UART peripheral with mapped serial pins.",
+        "ports": [
+          {
+            "id": "_uart::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "_uart::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "port": 1,
+          "baud_rate": 115200,
+          "tx_pin": 17,
+          "rx_pin": 16,
+          "lld_workflow": {
+            "role": "peripheral",
+            "node_type": "uart_device"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 96.0,
+          "y": 320.0,
+          "layer": 1
+        }
+      },
+      {
+        "id": "logger",
+        "node_type": "logger",
+        "label": "Logger",
+        "description": "Emits structured runtime logs for diagnostics.",
+        "ports": [
+          {
+            "id": "logger::ldd::in",
+            "name": "assoc_in",
+            "direction": "input",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          },
+          {
+            "id": "logger::ldd::out",
+            "name": "assoc_out",
+            "direction": "output",
+            "datatype": "association",
+            "required": false,
+            "multiplicity": "one"
+          }
+        ],
+        "properties": {
+          "tag": "APP",
+          "level": "info",
+          "lld_workflow": {
+            "role": "service",
+            "node_type": "logger"
+          }
+        },
+        "execution": {},
+        "visual": {
+          "x": 424.0,
+          "y": 320.0,
+          "layer": 1
+        }
+      }
+    ],
+    "connections": [
+      [
+        "app_task::ldd::out",
+        "dht22_gpio::ldd::in"
+      ],
+      [
+        "timer_node::ldd::out",
+        "app_task::ldd::in"
+      ],
+      [
+        "timer_node::ldd::out",
+        "dht_poll::ldd::in"
+      ],
+      [
+        "timer_node::ldd::out",
+        "dht_stream::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "logger::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "_uart::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "timer_node::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "dht_poll::ldd::in"
+      ],
+      [
+        "app_task::ldd::out",
+        "dht_stream::ldd::in"
+      ],
+      [
+        "dht_poll::ldd::out",
+        "dht22_gpio::ldd::in"
+      ],
+      [
+        "dht_poll::ldd::out",
+        "dht22_sensor::ldd::in"
+      ],
+      [
+        "dht_stream::ldd::out",
+        "_uart::ldd::in"
+      ],
+      [
+        "dht_poll::ldd::out",
+        "timer_node::ldd::in"
+      ],
+      [
+        "dht_stream::ldd::out",
+        "logger::ldd::in"
+      ]
+    ],
+    "layout": {
+      "orientation": "vertical",
+      "node_width": 280.0,
+      "layer_gap": 120.0,
+      "node_gap": 48.0
+    },
+    "runtime_metadata": {
+      "telemetry_enabled": false,
+      "overlays": {
+        "ldd_edge_labels": {
+          "timer_node::ldd::out|dht_poll::ldd::in": "triggers",
+          "dht_poll::ldd::out|timer_node::ldd::in": "invokes",
+          "app_task::ldd::out|_uart::ldd::in": "data_flow",
+          "app_task::ldd::out|dht_poll::ldd::in": "invokes",
+          "app_task::ldd::out|timer_node::ldd::in": "controls",
+          "dht_stream::ldd::out|logger::ldd::in": "invokes",
+          "app_task::ldd::out|dht_stream::ldd::in": "invokes",
+          "dht_poll::ldd::out|dht22_gpio::ldd::in": "invokes",
+          "app_task::ldd::out|dht22_gpio::ldd::in": "controls",
+          "dht_poll::ldd::out|dht22_sensor::ldd::in": "invokes",
+          "dht_stream::ldd::out|_uart::ldd::in": "invokes",
+          "app_task::ldd::out|logger::ldd::in": "data_flow",
+          "timer_node::ldd::out|app_task::ldd::in": "triggers",
+          "timer_node::ldd::out|dht_stream::ldd::in": "triggers"
+        },
+        "diagram_view": "ldd"
+      }
+    }
+  },
+  "mermaid": "flowchart TD\n  subgraph freertos_runtime[\"FreeRTOS\"]\n    app_task[\"Task app_task\"]\n    dht_poll[\"Task dht_poll\"]\n    dht_stream[\"Task dht_stream\"]\n    timer_node[\"Timer\"]\n  end\n  dht22_gpio[\"DHT22 GPIO (GPIO 2, APP_DHT22_GPIO)\"]\n  dht22_sensor[\"DHT22 Temperature/Humidity Sensor\"]\n  _uart[\"APP UART Device\"]\n  logger[\"Logger\"]\n  app_task --> dht_poll\n  app_task --> dht_stream\n  dht_poll --> dht22_gpio\n  dht_poll --> dht22_sensor\n  dht_poll --> timer_node\n  dht_stream --> logger\n  dht_stream --> _uart\n  app_task --> _uart\n  app_task --> dht22_gpio\n  app_task --> logger\n  app_task --> timer_node\n  timer_node --> app_task\n  timer_node --> dht_poll\n  timer_node --> dht_stream",
+  "title": "Runtime workflow"
+}
