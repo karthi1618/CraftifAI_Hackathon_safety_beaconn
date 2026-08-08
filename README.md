@@ -1,0 +1,1 @@
+# CraftifAI_Hackathon_safetfy_beacon
