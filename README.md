@@ -80,3 +80,7 @@ If you are using a different ESP target, adjust the target accordingly.
 - Improve payload format versioning and validation.
 - Add configurable safety thresholds and alerting.
 - Extend the firmware to support additional sensors or multiple beacon modes.
+
+
+https://github.com/user-attachments/assets/0e15c8af-c6ea-4b58-9eb2-2335ab70e357
+
